@@ -1,12 +1,21 @@
 use std::fs::File;
 use std::io::prelude::*;
+use std::fs::OpenOptions;
+use std::collections::HashMap;
+
+mod alphabet;
 
 fn main() {
-    createLSFile("testProg");
+    const fileName: &str = "fanucABC.ls";
+    createLSFile(fileName);
+    appendToFile("test addition", fileName);
+
+    let alphabet = alphabet::alphanetHashMap();
+    appendToFile(&alphabet["a"], fileName);
 }
 
 fn createLSFile(fileName: &str) -> std::io::Result<()> {
-    let mut file = File::create(fileName.to_owned() + ".ls")?;
+    let mut file = File::create(fileName.to_owned())?;
     file.write_all(b"
     /PROG  PROG_NEW
     /ATTR
@@ -28,10 +37,22 @@ fn createLSFile(fileName: &str) -> std::io::Result<()> {
           PAUSE_REQUEST	= 0;
     DEFAULT_GROUP	= 1,*,*,*,*;
     CONTROL_CODE	= 00000000 00000000;
+    /MN
     ")?;
 
-
     Ok(())
+}
+
+fn appendToFile(command: &str, fileName: &str) {
+    let mut file = OpenOptions::new()
+        .write(true)
+        .append(true)
+        .open(fileName)
+        .unwrap();
+
+    if let Err(e) = writeln!(file, "{}", command) {
+        eprintln!("Couldn't write to file: {}", e);
+    }
 }
 
 // Grippers
