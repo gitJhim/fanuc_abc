@@ -20,5 +20,6 @@
     DEFAULT_GROUP	= 1,*,*,*,*;
     CONTROL_CODE	= 00000000 00000000;
     /MN
-    test addition
-1: J P[1] 50% FINE    ;
+    1: J P[4] 50% FINE    ;
+1: J P[5] 50% FINE    ;
+1: J P[22] 50% FINE    ;

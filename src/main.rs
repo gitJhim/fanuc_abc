@@ -5,16 +5,22 @@ use std::collections::HashMap;
 
 mod alphabet;
 
-fn main() {
-    const fileName: &str = "fanucABC.ls";
-    createLSFile(fileName);
-    appendToFile("test addition", fileName);
+const fileName: &str = "fanucABC.ls";
 
-    let alphabet = alphabet::alphanetHashMap();
-    appendToFile(&alphabet["a"], fileName);
+fn main() {
+    createLSFile();
+
+    let alphabet = alphabet::alphanetHashMap();    
+    let word = getWord();
+
+
+    for c in word.chars() {
+        println!("{}", &alphabet[&c.to_string()]);
+        appendToFile(&alphabet[&c.to_string()]);
+    }
 }
 
-fn createLSFile(fileName: &str) -> std::io::Result<()> {
+fn createLSFile() -> std::io::Result<()> {
     let mut file = File::create(fileName.to_owned())?;
     file.write_all(b"
     /PROG  PROG_NEW
@@ -43,7 +49,7 @@ fn createLSFile(fileName: &str) -> std::io::Result<()> {
     Ok(())
 }
 
-fn appendToFile(command: &str, fileName: &str) {
+fn appendToFile(command: &str) {
     let mut file = OpenOptions::new()
         .write(true)
         .append(true)
@@ -55,6 +61,12 @@ fn appendToFile(command: &str, fileName: &str) {
     }
 }
 
+fn getWord() -> String {
+    let mut line = String::new();
+    println!("Enter a word:");
+    std::io::stdin().read_line(&mut line);
+    return line;
+}
 // Grippers
 // Open:  .7in
 // Close: .18in

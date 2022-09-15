@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 pub fn alphanetHashMap() -> HashMap<String, String> {
-    let mut alphabet = HashMap::new();
+    let mut alphabet = HashMap::<String, String>::new();
 
     alphabet.insert(
         "a".to_string(),
