@@ -1,7 +1,6 @@
 use std::fs::File;
 use std::io::prelude::*;
 use std::fs::OpenOptions;
-use std::collections::HashMap;
 
 mod alphabet;
 
@@ -10,13 +9,14 @@ const fileName: &str = "fanucABC.ls";
 fn main() {
     createLSFile();
 
-    let alphabet = alphabet::alphanetHashMap();    
-    let word = getWord();
-
+    let alphabet = alphabet::alphabetHashMap();    
+    let mut word = getWord();
 
     for c in word.chars() {
-        println!("{}", &alphabet[&c.to_string()]);
-        appendToFile(&alphabet[&c.to_string()]);
+        if c.is_whitespace() { 
+            return;
+        }
+        appendToFile(&alphabet[&c]);
     }
 }
 
@@ -44,7 +44,7 @@ fn createLSFile() -> std::io::Result<()> {
     DEFAULT_GROUP	= 1,*,*,*,*;
     CONTROL_CODE	= 00000000 00000000;
     /MN
-    ")?;
+")?;
 
     Ok(())
 }
